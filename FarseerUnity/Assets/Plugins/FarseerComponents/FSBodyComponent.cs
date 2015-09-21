@@ -33,6 +33,9 @@ public class FSBodyComponent : MonoBehaviour
 	public BodyType Type = BodyType.Dynamic;
 
 	protected bool initialized = false;
+
+	private Vector3 posToUse;
+	private Vector3 rotToUse;
 	
 	public virtual void Start ()
 	{
@@ -98,17 +101,40 @@ public class FSBodyComponent : MonoBehaviour
 		if(this.tag.Length > 0)
 			body.UserTag = this.tag;
 		body.UserFSBodyComponent = this;
+
+		if (body.BodyType == BodyType.Dynamic)
+						InvokeRepeating ("InvokeReapeatUpdate", 0.01f, 0.02f);
+
+
 	}
-	
-	// Update is called once per frame
-	void Update ()
+
+	void InvokeReapeatUpdate()
 	{
+		if (body.LinearVelocity != FVector2.Zero || body.AngularVelocity > 0f) {
+			posToUse = transform.position;
+			posToUse.x = body.Position.X;
+			posToUse.y = body.Position.Y;
+			rotToUse = transform.rotation.eulerAngles;
+			rotToUse.z = body.Rotation * Mathf.Rad2Deg;
+						//with this is smoth
+			//transform.position = Vector3.Lerp (transform.position, posToUse, 35 * Time.deltaTime);
+
+						//with this is more efficient
+			transform.position = posToUse;
+			transform.rotation = Quaternion.Euler (rotToUse);
+				}
+	}
+
+	// Update is called once per frame
+	void FixedUpdate2 ()
+	{
+
 		Vector3 pos = transform.position;
 		pos.x = body.Position.X;
 		pos.y = body.Position.Y;
 		Vector3 rot = transform.rotation.eulerAngles;
 		rot.z = body.Rotation * Mathf.Rad2Deg;
-		transform.position = pos;
+		transform.position = Vector3.Lerp (transform.position, pos, 20 * Time.deltaTime);
 		transform.rotation = Quaternion.Euler(rot);
 	}
 	

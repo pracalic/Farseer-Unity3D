@@ -9,7 +9,7 @@ public class TestCoreCollisionEvents : MonoBehaviour
 	public FSBodyComponent AttachedBody;
 	public FSShapeComponent AttachedShape;
 	
-	private GUIText guiText;
+	private GUIText guiText1;
 	
 	private bool initialized = false;
 	
@@ -19,7 +19,7 @@ public class TestCoreCollisionEvents : MonoBehaviour
 	void Start ()
 	{
 		lastContacts = new List<Contact>();
-		guiText = GetComponent<GUIText>();
+		guiText1 = GetComponent<GUIText>();
 		//Debug.Log(string.Format("lots of razors {0} should be here", "1337"));
 		//Time.timeScale = 0.5f;
 	}
@@ -30,7 +30,7 @@ public class TestCoreCollisionEvents : MonoBehaviour
 		
 		if(lastContacts.Count < 1)
 		{
-			guiText.text = "Contact: null";
+			guiText1.text = "Contact: null";
 		}
 		else
 		{
@@ -83,8 +83,8 @@ public class TestCoreCollisionEvents : MonoBehaviour
 			weight -= ownmass;
 			weight *= 0.5f;
 			weight += ownmass;
-			guiText.text = "TOTAL WEIGHT: "+weight.ToString()+"Kg";
-			guiText.text += guiOutput;
+			guiText1.text = "TOTAL WEIGHT: "+weight.ToString()+"Kg";
+			guiText1.text += guiOutput;
 		}
 	}
 	

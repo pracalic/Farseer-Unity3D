@@ -39,15 +39,59 @@ public class FSWorldComponent : MonoBehaviour
 	public Vector2 Gravity = new Vector2(0f, -9.8f);
 	
 	protected int pwait = 2;
+
+	public float worldStep = 0.0333f;
+
+	//float time1 = 0;
+	//float time2 = 0;
 	
 	void Awake ()
 	{
+		//Application.targetFrameRate = 6000;
+
+
+
 		instance = this;
 		world = new World(new FVector2(Gravity.x, Gravity.y));
+
+		StartCoroutine ("WorldCourutine");
+		//InvokeRepeating ("UpdateWorld", 0f, 0.0333f);
+
+
 	}
-	
+
+	IEnumerator WorldCourutine()
+	{
+		while (true) {
+//			yield return new WaitForSeconds(time2);
+//					
+//			time2 = worldStep + (worldStep - (Time.time - time1));
+//					//time2 = Time.time - time1;
+//					time1 = Time.time;
+//
+//			while(time2 > worldStep *2)
+//			{
+//				world.Step(worldStep);
+//				time2 -= worldStep;
+//
+//			}
+
+			yield return new WaitForSeconds(worldStep);
+
+
+			world.Step(worldStep);
+
+					
+				}
+		}
+
+	void UpdateWorld()
+	{
+		world.Step(Time.fixedDeltaTime);
+	}
+
 	// Update is called once per frame
-	void FixedUpdate ()
+	void FixedUpdate2()
 	{
 		if(pwait > 0)
 		{
